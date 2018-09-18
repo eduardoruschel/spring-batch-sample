@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<import resource="job_context.xml" />
+
+	<bean id="fileReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource"
+			value="classpath:input\mutual_fund.dat" />
+		<property name="linesToSkip" value="1" />
+
+		<property name="lineMapper">
+			<bean
+				class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="fieldSetMapper">
+					<bean
+						class="br.com.exemplo.MutualFundDataMapper" />
+				</property>
+
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fileWriter"
+		class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource"
+			value="file:output/processed_data.dat" />
+
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="schemeCode,schemeName,nav,salePrice" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<batch:job id="mfJob">
+		<batch:step id="processFile">
+			<batch:tasklet>
+				<batch:chunk reader="fileReader" writer="fileWriter"
+					commit-interval="100" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+</beans>
