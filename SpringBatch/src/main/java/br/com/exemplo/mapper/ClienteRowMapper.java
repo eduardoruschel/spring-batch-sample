@@ -21,5 +21,4 @@ public class ClienteRowMapper  implements RowMapper<Cliente> {
 		
 		return cliente;
 	}
-
 }

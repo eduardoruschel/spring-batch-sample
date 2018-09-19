@@ -9,7 +9,6 @@ rg VARCHAR(100),
 datanascimento VARCHAR(100),
 sexo VARCHAR(10)
 )
-
  * @author eduardo.ruschel
  *
  */

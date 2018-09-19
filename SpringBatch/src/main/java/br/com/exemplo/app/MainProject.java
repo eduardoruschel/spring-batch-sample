@@ -27,7 +27,6 @@ public class MainProject {
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			e.printStackTrace();
 		} finally {
 			context.close();
 		}

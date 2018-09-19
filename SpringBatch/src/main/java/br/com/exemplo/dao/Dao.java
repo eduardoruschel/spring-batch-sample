@@ -8,4 +8,5 @@ public interface Dao<T> {
 	 
 	 public Cliente getClienteByCpf(String cpf);
 
+	 
 }

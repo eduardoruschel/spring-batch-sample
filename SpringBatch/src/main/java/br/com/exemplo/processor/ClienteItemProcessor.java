@@ -11,9 +11,7 @@ public class ClienteItemProcessor implements ItemProcessor<ClientesDTO, Clientes
 
 	@Override
 	public ClientesDTO process(ClientesDTO item) throws Exception {
-		
 		logger.info("Processando o item " + item);
-		
 		return item;
 	}
 

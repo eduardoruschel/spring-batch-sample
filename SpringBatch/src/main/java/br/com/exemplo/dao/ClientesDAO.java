@@ -43,8 +43,7 @@ public class ClientesDAO implements Dao<Cliente> {
 			Cliente cliente = (Cliente) jdbcTemplate.queryForObject(
 					sql, new Object[] { cpf }, new ClienteRowMapper());
 			return cliente;
-		} catch (org.springframework.dao.EmptyResultDataAccessException e) {
-		}
+		} catch (org.springframework.dao.EmptyResultDataAccessException e) {}
 
 		return null; 
 	}

@@ -43,7 +43,5 @@ public class ClientesDTO {
 		return "ClientesDTO [nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", dataNascimento=" + dataNascimento
 				+ ", sexo=" + sexo + "]";
 	}
-	
-	
 
 }

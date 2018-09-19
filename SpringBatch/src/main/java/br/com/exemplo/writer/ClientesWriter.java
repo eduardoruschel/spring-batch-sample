@@ -36,7 +36,6 @@ public class ClientesWriter implements ItemWriter<ClientesDTO> {
 		}
 	}
 	
-	
 	private Cliente convertCliente(ClientesDTO clientesDTO) {
 		Cliente cliente = new Cliente();
 		cliente.setCpf(clientesDTO.getCpf());
