@@ -15,7 +15,7 @@ public class AppConfig {
 	  public DataSource dataSource() {
 	      DriverManagerDataSource ds = new DriverManagerDataSource();
 	      ds.setDriverClassName(oracle.jdbc.driver.OracleDriver.class.getName());
-	      ds.setUrl("jdbc:oracle:thin:@petra-devdb01.intra.grupopetra.com.br:1521:fundosdev");
+	      ds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
 	      ds.setUsername("CEDENTE");
 	      ds.setPassword("CEDENTE");
 	      return ds;

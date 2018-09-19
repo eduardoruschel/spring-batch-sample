@@ -30,7 +30,6 @@
 				<property name="lineTokenizer">
 					<bean
 						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-<!-- 						<property name="names" value="nome;cpf;rg;data_nascimento;sexo" /> -->
 						<property name="delimiter" value=";" />
 					</bean>
 				</property>
