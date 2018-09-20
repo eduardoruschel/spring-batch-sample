@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import br.com.exemplo.app.MainParallel;
 import br.com.exemplo.model.Contato;
 
 @Component("itemProcessor")
@@ -21,7 +20,7 @@ public class ContatosProcessor implements ItemProcessor<Contato, Contato> {
 	@Override
 	public Contato process(Contato item) throws Exception {
 		
-		logger.info(threadName + " processing : " + item.getId() + " : " + item.getNomeContato());
+		logger.info(threadName + " Processando item : " + item.getId() + " : " + item.getNomeContato());
 
 		return item;
 	}

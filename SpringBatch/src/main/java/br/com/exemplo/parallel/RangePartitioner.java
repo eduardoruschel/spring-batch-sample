@@ -1,5 +1,6 @@
 package br.com.exemplo.parallel;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,8 +8,10 @@ import org.apache.log4j.Logger;
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.item.ExecutionContext;
 
-public class RangePartitioner implements Partitioner {
+public class RangePartitioner implements Partitioner, Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	final static Logger logger = Logger.getLogger(RangePartitioner.class);
 	
 	@Override

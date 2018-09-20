@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/batch 
 		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
@@ -10,39 +11,44 @@
 		http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		">
 
-    <!-- spring batch core settings -->
+	<!-- spring batch core settings -->
 	<import resource="../config/context.xml" />
-	
+
 	<!-- database settings -->
 	<import resource="../config/database.xml" />
 
 	<!-- partitioner job -->
-	<job id="partitionJob" xmlns="http://www.springframework.org/schema/batch">
-	    
-	    <!-- master step, 10 threads (grid-size)  -->
+	<job id="partitionJob"
+		xmlns="http://www.springframework.org/schema/batch">
+
+		<!-- master step, 10 threads (grid-size) -->
 		<step id="masterStep">
 			<partition step="slave" partitioner="rangePartitioner">
-				<handler grid-size="20" task-executor="taskExecutor" />
+				<handler grid-size="10" task-executor="taskExecutor" />
 			</partition>
 		</step>
-		
+
 	</job>
 
 	<!-- Jobs to run -->
-	<step id="slave" xmlns="http://www.springframework.org/schema/batch">
+	<step id="slave"
+		xmlns="http://www.springframework.org/schema/batch">
 		<tasklet>
 			<chunk reader="pagingItemReader" writer="flatFileItemWriter"
 				processor="itemProcessor" commit-interval="1" />
 		</tasklet>
 	</step>
 
-	<bean id="rangePartitioner" class="br.com.exemplo.parallel.RangePartitioner" />
+	<bean id="rangePartitioner"
+		class="br.com.exemplo.parallel.RangePartitioner" />
 
-	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+	<bean id="taskExecutor"
+		class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
 
-	<bean id="itemProcessor" class="br.com.exemplo.processor.ContatosProcessor"
-		scope="step">
-		<property name="threadName" value="#{stepExecutionContext[name]}" />
+	<bean id="itemProcessor"
+		class="br.com.exemplo.processor.ContatosProcessor" scope="step">
+		<property name="threadName"
+			value="#{stepExecutionContext[name]}" />
 	</bean>
 
 	<bean id="pagingItemReader"
@@ -53,9 +59,11 @@
 			<bean
 				class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
 				<property name="dataSource" ref="dataSource" />
-				<property name="selectClause" value="select  id, ddd, telefone, nomecontato" />
+				<property name="selectClause"
+					value="select  id, ddd, telefone, nomecontato" />
 				<property name="fromClause" value="from CONTATOS_TMP" />
-				<property name="whereClause" value="where id &gt;= :fromId and id &lt;= :toId" />
+				<property name="whereClause"
+					value="where id &gt;= :fromId and id &lt;= :toId" />
 				<property name="sortKey" value="id" />
 			</bean>
 		</property>
@@ -70,15 +78,20 @@
 			<bean class="br.com.exemplo.mapper.ContatoRowMapper" />
 		</property>
 	</bean>
-	
-	
+
+	<bean id="contatosWriter"
+		class="br.com.exemplo.writer.ContatosWriter" scope="prototype">
+		<property name="delegate" ref="fileWriter" />
+	</bean>
+
 
 	<!-- csv file writer -->
-	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
-		scope="step" >
+	<bean id="flatFileItemWriter"
+		class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
 		<property name="resource"
 			value="file:csv/outputs/users.processed#{stepExecutionContext[fromId]}-#{stepExecutionContext[toId]}.csv" />
-						
+
 		<property name="appendAllowed" value="false" />
 		<property name="lineAggregator">
 			<bean
@@ -87,7 +100,8 @@
 				<property name="fieldExtractor">
 					<bean
 						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-						<property name="names" value="id, ddd, telefone, nomeContato" />
+						<property name="names"
+							value="id, ddd, telefone, nomeContato" />
 					</bean>
 				</property>
 			</bean>
