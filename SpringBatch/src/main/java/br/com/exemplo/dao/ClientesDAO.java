@@ -29,7 +29,7 @@ public class ClientesDAO implements Dao<Cliente> {
 		if (jdbcTemplate == null)
 			this.postConstruct();
 
-		String sql = "insert into Cliente(cpf,nome, rg, datanascimento, sexo) values (?,?,?,?,?)";
+		String sql = "insert into Cliente(id, cpf,nome, rg, datanascimento, sexo) values (SEQ_CLIENTE.Nextval,?,?,?,?,?)";
 		jdbcTemplate.update(sql, cliente.getCpf(), cliente.getNome(), cliente.getRg(), cliente.getDataNascimento(), cliente.getSexo());
 	}
 
@@ -46,6 +46,16 @@ public class ClientesDAO implements Dao<Cliente> {
 		} catch (org.springframework.dao.EmptyResultDataAccessException e) {}
 
 		return null; 
+	}
+
+	@Override
+	public void update(Cliente cliente) {
+		if (jdbcTemplate == null)
+			this.postConstruct();
+
+		String sql = "update Cliente set nome = ?, rg= ?, datanascimento = ?, sexo = ? where cpf = ?";
+		jdbcTemplate.update(sql,  cliente.getNome(), cliente.getRg(), cliente.getDataNascimento(), cliente.getSexo(), cliente.getCpf());
+		
 	}
 	
 }

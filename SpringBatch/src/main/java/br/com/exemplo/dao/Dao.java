@@ -6,6 +6,8 @@ public interface Dao<T> {
 	
 	 public void save(Cliente cliente);
 	 
+	 public void update(Cliente cliente);
+	 
 	 public Cliente getClienteByCpf(String cpf);
 
 	 

@@ -30,7 +30,8 @@ public class ClientesWriter implements ItemWriter<ClientesDTO> {
 				clienteDAO.save(this.convertCliente(clientesDTO));
 				logger.info(" Cliente: " + clientesDTO.getNome() + " incluido em base");
 			} else {
-				logger.info(" Cliente: " + clientesDTO.getNome() + " já consta em base, incluido em processamento anterior");
+				logger.info(" Cliente: " + clientesDTO.getNome() + " já consta em base, alterando Cliente");
+				clienteDAO.update(this.convertCliente(clientesDTO));
 			}
 			
 		}

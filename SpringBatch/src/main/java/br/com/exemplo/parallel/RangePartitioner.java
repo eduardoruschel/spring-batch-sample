@@ -3,11 +3,14 @@ package br.com.exemplo.parallel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.item.ExecutionContext;
 
 public class RangePartitioner implements Partitioner {
 
+	final static Logger logger = Logger.getLogger(RangePartitioner.class);
+	
 	@Override
 	public Map<String, ExecutionContext> partition(int gridSize) {
 
@@ -20,16 +23,15 @@ public class RangePartitioner implements Partitioner {
 
 		for (int i = 1; i <= gridSize; i++) {
 			ExecutionContext value = new ExecutionContext();
-
-			System.out.println("\nStarting : Thread" + i);
-			System.out.println("fromId : " + fromId);
-			System.out.println("toId : " + toId);
+			
+			logger.info("Starting : Processo " + i);
+			logger.info("fromId : " + fromId);
+			logger.info("toId : " + toId);
 
 			value.putInt("fromId", fromId);
 			value.putInt("toId", toId);
 
-			// give each thread a name, thread 1,2,3
-			value.putString("name", "Thread" + i);
+			value.putString("name", "Processo " + i);
 
 			result.put("partition" + i, value);
 
