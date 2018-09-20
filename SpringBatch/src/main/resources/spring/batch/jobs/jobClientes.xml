@@ -7,7 +7,6 @@
 
 	<import resource="../config/context.xml" />
 
-<!-- 	<bean id="report" class="com.mkyong.model.Report" scope="prototype" /> -->
 	<bean id="itemProcessor" class="br.com.exemplo.processor.ClienteItemProcessor" />
 
 	<batch:job id="ClientesProcessJob">
@@ -42,7 +41,5 @@
 	</bean>
 	
 	<bean id="fileWriter" class="br.com.exemplo.writer.ClientesWriter"/> 
-
-
 
 </beans>
